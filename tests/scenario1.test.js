@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const { Builder } = require("selenium-webdriver");
-const chrome = require("selenium-webdriver/chrome");
 
 const HomePage = require("../pages/HomePage");
 const LoginPage = require("../pages/LoginPage");
@@ -13,7 +12,7 @@ async function scenario1() {
 
     const driver = await new Builder().forBrowser("chrome").build();
 
-    driver.manage().window().maximize();
+    await driver.manage().window().maximize();
 
     const homePage = new HomePage(driver);
     const loginPage = new LoginPage(driver);
@@ -25,7 +24,7 @@ async function scenario1() {
         // step1: Open Netflix home page and verify it loaded
         await homePage.openHome(baseUrl);
         await homePage.verifyPageLoaded();
-       
+
 
         // step2: verify header section
         await homePage.verifyHeader();
@@ -48,5 +47,5 @@ async function scenario1() {
 }
 
 (async () => {
-  await scenario1();
+    await scenario1();
 })();

@@ -1,50 +1,31 @@
 require("dotenv").config();
 
 const { Builder } = require("selenium-webdriver");
-const chrome = require("selenium-webdriver/chrome");
 
-const { waitForTitleNotEmpty } = require("../utils/commonUtil");
-const HomePage = require("../pages/HomePage");
-
+const BasePage = require("../pages/BasePage");
 
 (async function smoke() {
+    const baseUrl = process.env.BASE_URL || "https://www.netflix.com";
+    console.log("Base URL:", baseUrl);
 
-  const baseUrl = process.env.BASE_URL;
+    const driver = await new Builder().forBrowser("chrome").build();
+    await driver.manage().window().maximize();
 
-  const options = new chrome.Options();
-  options.addArguments("--start-maximized");
-
-  const driver = await new Builder()
-    .forBrowser("chrome")
-    .setChromeOptions(options)
-    .build();
+    const basePage = new BasePage(driver);
 
   try {
-
-    const home = new HomePage(driver);
-
     console.log("Opening:", baseUrl);
 
-    await home.openHome(baseUrl);
+    await basePage.open(baseUrl);
 
-    await waitForTitleNotEmpty(driver);
-
-    const title = await driver.getTitle();
-    const url = await driver.getCurrentUrl();
+    const title = await basePage.waitForTitleNotEmpty();
 
     console.log("Title:", title);
-    console.log("URL:", url);
 
     console.log("Smoke test passed");
-
   } catch (error) {
-
     console.error("Smoke test failed:", error);
-
   } finally {
-
     await driver.quit();
-
   }
-
 })();

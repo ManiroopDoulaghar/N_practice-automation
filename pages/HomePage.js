@@ -1,4 +1,4 @@
-const { By, until } = require("selenium-webdriver");
+const { By } = require("selenium-webdriver");
 const BasePage = require("./BasePage");
 
 class HomePage extends BasePage {
@@ -13,43 +13,26 @@ class HomePage extends BasePage {
     this.learnMoreButton = By.xpath("//button[@data-uia='promo-banner-cta']");
   }
 
-  async openHome(baseUrl) {
-    await this.open(baseUrl);
+  async openHome(url){
+    await this.open(url)
   }
 
   async verifyPageLoaded() {
-    const title = await this.driver.getTitle();
-    console.log(`Page title: ${title}`);
-    if (!title || title.trim() === "") {
-      throw new Error("Home page title is empty, page might not have loaded properly.");
-    }
+    await this.waitForElementVisible(this.heroSection);
+    console.log("Home page loaded successfully.");
   }
 
   async verifyHeader() {
-    const signInLink = await this.driver.findElement(this.signInLink).isDisplayed();
-    console.log(`Sign-in link is displayed: ${signInLink}`);
-    if (!signInLink) {
-      throw new Error("Sign-in link is not displayed.");
-    }
+    await this.waitForElementVisible(this.signInLink);
+    console.log("Header section is visible.");
   }
 
   async scrollToAdsSection() {
-    const element = await this.driver.findElement(this.learnMoreButton);
-    await this.driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", element);
+    await this.scrollIntoView(this.learnMoreButton);
   }
 
   async clickAdsLearnMore() {
-    const learnMore = await this.driver.wait(
-      until.elementLocated(this.learnMoreButton),
-      15000
-    );
-
-    await this.driver.wait(
-      until.elementIsVisible(learnMore),
-      15000
-    );
-
-    await learnMore.click();
+    await this.click(this.learnMoreButton);
   }
 
 }
