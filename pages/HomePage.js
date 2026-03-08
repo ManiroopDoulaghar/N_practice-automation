@@ -11,6 +11,9 @@ class HomePage extends BasePage {
     this.signInLink = By.css('[data-uia="header-login-link"]');
 
     this.learnMoreButton = By.xpath("//button[@data-uia='promo-banner-cta']");
+
+    //help center from footer
+    this.helpCenter = By.css('a[href="https://help.netflix.com"]');
   }
 
   async openHome(url){
@@ -35,5 +38,9 @@ class HomePage extends BasePage {
     await this.click(this.learnMoreButton);
   }
 
+  async clickFooterLink(){
+    await this.scrollIntoView(this.helpCenter);
+    await this.click(this.helpCenter);
+  }
 }
 module.exports = HomePage;

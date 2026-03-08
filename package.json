@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "smoke": "node tests/smoke.test.js",
-    "scenario1": "node tests/scenario1.test.js"
+    "scenario1": "node tests/scenario1.test.js",
+    "scenario2": "node tests/scenario2.test.js"
   },
   "type": "commonjs",
   "author": "",

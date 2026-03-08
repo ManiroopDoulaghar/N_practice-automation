@@ -10,6 +10,7 @@ class AdsPlanPage extends BasePage {
 
     // Join now for 7.99
     this.joinNowCta = By.xpath("//*[@data-uia='ads-landing-page-hero']//button[contains(.,'Join')]");
+    
   }
 
   async assertOnAdsPlanPage() {
